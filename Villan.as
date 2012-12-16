@@ -6,15 +6,17 @@ package
 	import net.flashpunk.utils.Key;
 	import flash.geom.Point;
 	import net.flashpunk.FP;
+	import mx.utils.ObjectUtil;
 
 	public class Villan extends Entity
 	{
 		[Embed(source = 'graphics/villan.png')] private const SPRITE:Class;
 
-		public var sprite:Spritemap = new Spritemap(SPRITE, 16, 16);
+		public var sprite:Spritemap = new Spritemap(SPRITE, 11, 13);
 
 		private var speed:int = 3;
-		private var _v:Point;
+		private var _velocity:Point;
+		private var gridSize:int = 16;
 
 		public function Villan()
 		{
@@ -22,10 +24,13 @@ package
 			sprite.add("runright", [2,3], 20, true);
 			sprite.add("runleft", [4,5], 20, true);
 			sprite.add("runcenter", [6,7], 20, true);
-
-			setHitbox(11,14,5,1);
+			sprite.x = 0;
+			sprite.y = 0;
+			width = 11;
+			height = 13;
+			setHitbox(11,13,0,0);
 			graphic = sprite;
-			_v = new Point;
+			_velocity = new Point;
 		}
 
 		override public function update():void
@@ -35,8 +40,8 @@ package
 			if (Input.check(Key.DOWN)) movement.y++;
 			if (Input.check(Key.LEFT)) movement.x--;
 			if (Input.check(Key.RIGHT)) movement.x++;
-			_v.x = 100 * FP.elapsed * movement.x;
-			_v.y = 100 * FP.elapsed * movement.y;
+			_velocity.x = 100 * FP.elapsed * movement.x;
+			_velocity.y = 100 * FP.elapsed * movement.y;
 
 			if(movement.x > 0)
 			{
@@ -55,36 +60,34 @@ package
 				sprite.play("runcenter")
 			}
 
-			x += _v.x;
-			if(collide("level", x, y))
-			{
-				if(FP.sign(_v.x) >0)
-				{ //moving right
-					_v.x = 0;
-					x = Math.floor(x/16) * 16 - 16 - width;
-				}
-				else 
-				{//moving left
-					_v.x = 0;
-					x = Math.floor(x/16) * 16;
-				}
-				
+			//trace(ObjectUtil.toString(_velocity));
+			x += _velocity.x;
 
+			if (collide("level", x, y)) {
+				trace("collide right-left");
+				//Moving right
+				if (FP.sign(_velocity.x) > 0) {
+					_velocity.x = 0;
+					x = Math.floor((x + width) / gridSize) * gridSize - width;
+
+				} else { //Moving left
+					_velocity.x = 0;
+					x = Math.floor(x / gridSize) * gridSize + gridSize;
+				}
 			}
 
-			y += _v.y;
-			if(collide("level", x, y))
-			{
-				if(FP.sign(_v.y) >0)
-				{ //moving down
-					_v.y = 0;
-					y = Math.floor(y/16) * 16;
-				}
-				else 
-				{//moving down
-					_v.y = 0;
-					
-					y = Math.floor(y/16) * 16 - 16 - height;
+			y += _velocity.y;
+
+			if (collide("level", x, y)) {
+				trace("collide up-down");
+				//Moving down
+				if (FP.sign(_velocity.y) > 0) {
+					_velocity.y = 0;
+					y = Math.floor((y + height) / gridSize) * gridSize - height;
+
+				} else { //Moving up
+					_velocity.y = 0;
+					y = Math.floor(y / gridSize) * gridSize + gridSize;
 				}
 			}
 
