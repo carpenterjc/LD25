@@ -24,6 +24,7 @@ package
 			sprite.add("runright", [2,3], 20, true);
 			sprite.add("runleft", [4,5], 20, true);
 			sprite.add("runcenter", [6,7], 20, true);
+			sprite.add("attack", [8,1,9,1], 20, true);
 			sprite.x = 0;
 			sprite.y = 0;
 			width = 11;
@@ -43,10 +44,19 @@ package
 			if (Input.check(Key.DOWN)) movement.y++;
 			if (Input.check(Key.LEFT)) movement.x--;
 			if (Input.check(Key.RIGHT)) movement.x++;
-			_velocity.x = 100 * FP.elapsed * movement.x;
-			_velocity.y = 100 * FP.elapsed * movement.y;
+			var attack:Boolean = Input.check(Key.SPACE);
+			if(!attack)
+			{
+				_velocity.x = 100 * FP.elapsed * movement.x;
+				_velocity.y = 100 * FP.elapsed * movement.y;
+			}
 
-			if(movement.x > 0)
+
+			if(attack)
+			{
+				sprite.play("attack");
+			}
+			else if(movement.x > 0)
 			{
 				sprite.play("runright");
 			}
