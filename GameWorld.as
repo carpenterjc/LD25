@@ -13,9 +13,10 @@ package {
 		
 		override public function begin():void
 		{
-			add(new Villan(new Point(8,14)));
+			add(new Villan(new Point(8,13)));
 			add(new Level());
 			add(new Granny(new Point(5,6), new Point(0,1)));
+			add(new Granny(new Point(15,9), new Point(0,1)));
 			add(new Granny(new Point(5,2), new Point(1,0)));
 		}
 	}

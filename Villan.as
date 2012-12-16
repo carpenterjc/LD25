@@ -33,6 +33,7 @@ package
 			_velocity = new Point;
 			x = gridLocation.x * gridSize;
 			y = gridLocation.y * gridSize;
+			type = "villan"
 		}
 
 		override public function update():void

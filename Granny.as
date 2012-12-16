@@ -35,6 +35,7 @@ package
 			movement = mvmt;
 			x = gridLocation.x * gridSize;
 			y = gridLocation.y * gridSize;
+			type = "granny";
 				
 		}
 
@@ -44,51 +45,73 @@ package
 			_velocity.x = 50 * FP.elapsed * movement.x;
 			_velocity.y = 50 * FP.elapsed * movement.y;
 
-			if(movement.x > 0)
-			{
-				sprite.play("runright");
-			}
-			else if ( movement.x < 0 )
-			{
-				sprite.play("runleft");
-			}
-			else if(movement.x == 0 && movement.y ==0)
-			{
-				sprite.play("stand")
-			}
-			else
-			{
-				sprite.play("runcenter")
-			}
+			
+			
+
 
 			x += _velocity.x;
-
-			if (collide("level", x, y)) {
+			if (collide("level", x, y) ) 
+			{
 				//Moving right
-				if (FP.sign(_velocity.x) > 0) {
+				if (FP.sign(_velocity.x) > 0) 
+				{
 					_velocity.x = 0;
 					x = Math.floor((x + width) / gridSize) * gridSize - width;
 
-				} else { //Moving left
+				} else 
+				{ 
+					//Moving left
 					_velocity.x = 0;
 					x = Math.floor(x / gridSize) * gridSize + gridSize;
 				}
 				movement.x = 0 - movement.x;
 			}
+			if(collide("granny", x, y))
+			{
+				movement.x = 0 - movement.x;
+			}
 
+			
 			y += _velocity.y;
-
-			if (collide("level", x, y)) {
+			if (collide("level", x, y)) 
+			{
 				//Moving down
-				if (FP.sign(_velocity.y) > 0) {
+				if (FP.sign(_velocity.y) > 0) 
+				{
 					_velocity.y = 0;
 					y = Math.floor((y + height) / gridSize) * gridSize - height;
 
-				} else { //Moving up
+				} else
+				{ 
+					//Moving up
 					_velocity.y = 0;
 					y = Math.floor(y / gridSize) * gridSize + gridSize;
 				}
 				movement.y = 0 - movement.y;
+			}
+			if(collide("granny", x, y))
+			{
+				movement.y = 0 - movement.y;
+			}
+
+
+			var attacking:Boolean = collide("villan", x, y) is Entity;
+
+			if(movement.x > 0 && !attacking)
+			{
+				sprite.play("runright");
+			}
+			else if ( movement.x < 0 && !attacking)
+			{
+				sprite.play("runleft");
+			}
+			else if(attacking)
+			{
+				sprite.play("handbag")
+			}
+			else
+			{
+				sprite.play("runcenter")
 			}
 
 			super.update()
