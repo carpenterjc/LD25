@@ -21,7 +21,7 @@ package {
 		override public function begin():void
 		{
 			var statusentity:Entity = new Entity();
-			var statusstring:Text = new Text("Congratulation!\nYou have successfully filtched all\nthe old deards handbags!\nAgain?");
+			var statusstring:Text = new Text("Congratulation!\nYou have successfully filched all\nthe old dears handbags!\nAgain?");
 			statusentity.graphic = statusstring;
 			add(statusentity);
 			FP.alarm(2, timeout);

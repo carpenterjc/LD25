@@ -21,7 +21,7 @@ package {
 		override public function begin():void
 		{
 			var statusentity:Entity = new Entity();
-			var statusstring:Text = new Text("Those handbags contain money,\nyou wan't it!\nNick those handbags by spinning\nand hitting the old dears with\nyour swag bag.\nCarefull you don't get too dizzy...\nor they'll get you!\n");
+			var statusstring:Text = new Text("Those handbags contain money,\nyou wan't it!\nNick those handbags by spinning\nand hitting the old dears with\nyour swag bag.\nCareful you don't get too dizzy...\nor they'll get you!\n");
 			statusentity.graphic = statusstring;
 			add(statusentity);
 			FP.alarm(2, timeout);
