@@ -18,8 +18,9 @@ package
 		private var _velocity:Point;
 		private var gridSize:int = 16;
 		private var movement:Point;
+		private var villan:Villan;
 
-		public function Granny(gridLocation:Point, mvmt:Point)
+		public function Granny(gridLocation:Point, mvmt:Point, vil:Villan)
 		{
 			sprite.add("runright", [0,1], 5, true);
 			sprite.add("runleft", [2,3], 5, true);
@@ -36,7 +37,7 @@ package
 			x = gridLocation.x * gridSize;
 			y = gridLocation.y * gridSize;
 			type = "granny";
-				
+			villan = vil;
 		}
 
 		override public function update():void
@@ -47,7 +48,7 @@ package
 
 			
 			
-
+			var collided:Boolean = false;
 
 			x += _velocity.x;
 			if (collide("level", x, y) ) 
@@ -64,14 +65,15 @@ package
 					_velocity.x = 0;
 					x = Math.floor(x / gridSize) * gridSize + gridSize;
 				}
-				movement.x = 0 - movement.x;
+				collided = true;
 			}
 			if(collide("granny", x, y))
 			{
-				movement.x = 0 - movement.x;
+				collided = true;
 			}
 
 			
+
 			y += _velocity.y;
 			if (collide("level", x, y)) 
 			{
@@ -87,15 +89,15 @@ package
 					_velocity.y = 0;
 					y = Math.floor(y / gridSize) * gridSize + gridSize;
 				}
-				movement.y = 0 - movement.y;
+				collided = true;
 			}
 			if(collide("granny", x, y))
 			{
-				movement.y = 0 - movement.y;
+				collided = true;
 			}
 
 
-			var attacking:Boolean = collide("villan", x, y) is Entity;
+			var attacking:Boolean = collide("villan", x + (_velocity.x *3), y + (_velocity.y *3)) is Entity;
 
 			if(movement.x > 0 && !attacking)
 			{
@@ -114,6 +116,16 @@ package
 				sprite.play("runcenter")
 			}
 
+			if (collided)
+			{
+
+				movement.x = (Math.random()*2)-1;
+				movement.y = (Math.random()*2)-1;
+			}
+			if(attacking)
+			{
+				villan.hit()
+			}
 			super.update()
 		}
 	}

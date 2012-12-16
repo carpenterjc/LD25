@@ -17,6 +17,7 @@ package
 		private var speed:int = 3;
 		private var _velocity:Point;
 		private var gridSize:int = 16;
+		private var life: int = 100;
 
 		public function Villan(gridLocation:Point)
 		{
@@ -35,6 +36,15 @@ package
 			x = gridLocation.x * gridSize;
 			y = gridLocation.y * gridSize;
 			type = "villan"
+		}
+
+		public function hit():void
+		{
+			life --;
+			if(life < 1)
+			{
+				FP.world.remove(this);
+			}
 		}
 
 		override public function update():void
