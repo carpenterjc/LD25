@@ -8,7 +8,7 @@ package
 		{
 			super(640, 480, 60, false);
 			FP.world = new GameWorld;
-			FP.console.enable();
+			//FP.console.enable();
 			FP.screen.scale = 2;
 		}
 

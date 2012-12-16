@@ -38,14 +38,18 @@ package {
 
 			_grid.loadFromString(makeGridFromLevel(levelString));
 			
-			trace(makeGridFromLevel(levelString));
 			mask = _grid;
 			type = "level"
 		}
 
 		public function makeGridFromLevel(level:String): String
 		{
-			return level.replace("2","0").replace("3","0").replace("4","0")
+			trace(level);
+			var nobridge:String = level.replace(new RegExp("3", 'g'),"0");
+			trace(nobridge);
+			var nopath:String = nobridge.replace(new RegExp("4", 'g'),"0");
+			trace(nopath);
+			return nopath;
 		}
 	}
 }
