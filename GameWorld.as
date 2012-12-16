@@ -25,10 +25,15 @@ package {
 			add(new Granny(new Point(15,9), new Point(0,1), villan));
 			add(new Granny(new Point(5,2), new Point(1,0), villan));
 			add(new Granny(new Point(4,7), new Point(0,1), villan));
+			add(new Granny(new Point(5,2), new Point(1,0), villan));
+			add(new Granny(new Point(4,7), new Point(0,0.5), villan));
 			add(new Granny(new Point(1,2), new Point(0,1), villan));
-			add(new Granny(new Point(3,17), new Point(1,0), villan));
-			
+			add(new Granny(new Point(2,13), new Point(0,-1), villan));
+			add(new Granny(new Point(3,13), new Point(0,-0.7), villan));
+			add(new Granny(new Point(4,13), new Point(0,-1), villan));
+
 			add(statusentity);
 		}
+
 	}
 }

@@ -7,7 +7,8 @@ package
 	import flash.geom.Point;
 	import net.flashpunk.FP;
 	import mx.utils.ObjectUtil;
-
+	import net.flashpunk.Sfx;
+	
 	public class Granny extends Entity
 	{
 		[Embed(source = 'graphics/granny.png')] private const SPRITE:Class;
@@ -19,6 +20,9 @@ package
 		private var gridSize:int = 16;
 		private var movement:Point;
 		private var villan:Villan;
+
+		[Embed(source = 'sounds/ooo.mp3')] private const OOO:Class;
+		public var ooo:Sfx = new Sfx(OOO);	
 
 		public function Granny(gridLocation:Point, mvmt:Point, vil:Villan)
 		{
@@ -91,11 +95,11 @@ package
 				}
 				collided = true;
 			}
+
 			if(collide("granny", x, y))
 			{
-				//collided = true;
+				ooo.play();
 			}
-
 
 			var attacking:Boolean = collide("villan", x + (_velocity.x *3), y + (_velocity.y *3)) is Entity;
 

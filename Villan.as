@@ -60,8 +60,12 @@ package
 			if(life < 1)
 			{
 				FP.world.remove(this);
+				FP.world = new LooserWorld();
 			}
-			handbag.play();
+			if(!handbag.playing)
+			{
+				handbag.play();
+			}
 		}
 
 		override public function update():void
@@ -165,10 +169,14 @@ package
 				FP.world.remove(gran);
 				kills++;
 				swag.play();
+				if(kills > 9)
+				{
+					FP.world = new VictoryWorld();
+				}
 			}
 
 			var str:String = "{0}% Health - {1} Handbags";
-			var newString:String = StringUtil.substitute(str, life/5, kills);
+			var newString:String = StringUtil.substitute(str, life, kills);
 			statusstring.text = newString;
 			super.update()
 		}

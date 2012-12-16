@@ -7,7 +7,7 @@ package
 		public function Main()
 		{
 			super(640, 480, 60, false);
-			FP.world = new GameWorld;
+			FP.world = new IntroWorld;
 			//FP.console.enable();
 			FP.screen.scale = 2;
 		}
