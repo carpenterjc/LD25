@@ -7,6 +7,9 @@ package
 	import flash.geom.Point;
 	import net.flashpunk.FP;
 	import mx.utils.ObjectUtil;
+	import mx.utils.StringUtil;
+	import net.flashpunk.graphics.Text;
+	import net.flashpunk.Sfx;
 
 	public class Villan extends Entity
 	{
@@ -18,8 +21,20 @@ package
 		private var _velocity:Point;
 		private var gridSize:int = 16;
 		private var life: int = 100;
+		private var dizzy: int = 0;
+		private var attacking:Boolean = false;
+		private var statusstring:Text;
+		private var kills: int  = 0;
 
-		public function Villan(gridLocation:Point)
+		[Embed(source = 'sounds/swag.mp3')] private const SWAG:Class;
+		public var swag:Sfx = new Sfx(SWAG);
+		[Embed(source = 'sounds/spin.mp3')] private const SPIN:Class;
+		public var spin:Sfx = new Sfx(SPIN);
+		
+		[Embed(source = 'sounds/handbag.mp3')] private const HANDBAG:Class;
+		public var handbag:Sfx = new Sfx(HANDBAG);	
+
+		public function Villan(gridLocation:Point, ss:Text)
 		{
 			sprite.add("stand", [0,1], 10, true);
 			sprite.add("runright", [2,3], 20, true);
@@ -36,6 +51,7 @@ package
 			x = gridLocation.x * gridSize;
 			y = gridLocation.y * gridSize;
 			type = "villan"
+			statusstring = ss;
 		}
 
 		public function hit():void
@@ -45,6 +61,7 @@ package
 			{
 				FP.world.remove(this);
 			}
+			handbag.play();
 		}
 
 		override public function update():void
@@ -54,12 +71,40 @@ package
 			if (Input.check(Key.DOWN)) movement.y++;
 			if (Input.check(Key.LEFT)) movement.x--;
 			if (Input.check(Key.RIGHT)) movement.x++;
-			var attack:Boolean = Input.check(Key.SPACE);
-			if(!attack)
+			
+			var attackkey:Boolean = Input.check(Key.SPACE);
+			var attack:Boolean = false;
+			if(attackkey)
 			{
+				
+				if(attacking && dizzy < 500)
+				{
+					attack = true;
+					dizzy +=10;
+				}
+				else if (!attacking && dizzy < 50)
+				{
+					spin.play();
+					attacking = true;
+					attack = true;
+					dizzy +=10;
+				}
+			}
+			else
+			{
+				if ( dizzy > 1)
+				{
+					dizzy--;
+				}
+				attacking = false;
+			}
+
+			
+			//if(!attack)
+			//{
 				_velocity.x = 100 * FP.elapsed * movement.x;
 				_velocity.y = 100 * FP.elapsed * movement.y;
-			}
+			//}
 
 
 			if(attack)
@@ -114,6 +159,17 @@ package
 				}
 			}
 
+			var gran:Entity = collide("granny", x, y);
+			if(gran is Entity && attack)
+			{
+				FP.world.remove(gran);
+				kills++;
+				swag.play();
+			}
+
+			var str:String = "{0}% Health - {1} Handbags";
+			var newString:String = StringUtil.substitute(str, life/5, kills);
+			statusstring.text = newString;
 			super.update()
 		}
 	}

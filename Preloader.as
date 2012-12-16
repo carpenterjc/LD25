@@ -74,7 +74,7 @@ package
 			stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
 			if (mustClick) {
-				stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, onMouseDown);
 			}
 		}
 
@@ -93,7 +93,7 @@ package
 					text.scaleX = 2.0;
 					text.scaleY = 2.0;
 				
-					text.text = "Click to start";
+					text.text = "Any key to start";
 			
 					text.y = (sh - text.height) * 0.5;
 				}
@@ -111,10 +111,10 @@ package
 			text.x = (sw - text.width) * 0.5;
 		}
 		
-		private function onMouseDown(e:MouseEvent):void {
+		private function onMouseDown(e:KeyboardEvent):void {
 			if (hasLoaded())
 			{
-				stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+				stage.removeEventListener(KeyboardEvent.KEY_DOWN, onMouseDown);
 				startup();
 			}
 		}

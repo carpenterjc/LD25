@@ -69,7 +69,7 @@ package
 			}
 			if(collide("granny", x, y))
 			{
-				collided = true;
+				//collided = true;
 			}
 
 			
@@ -93,7 +93,7 @@ package
 			}
 			if(collide("granny", x, y))
 			{
-				collided = true;
+				//collided = true;
 			}
 
 
@@ -118,9 +118,10 @@ package
 
 			if (collided)
 			{
-
-				movement.x = (Math.random()*2)-1;
-				movement.y = (Math.random()*2)-1;
+				var currentHeading:Number = Math.atan2(movement.y, movement.x);
+				var newHeading:Number = currentHeading + (((Math.random()-0.5)*2*Math.PI)/2);
+				movement.x = Math.sin(newHeading);
+				movement.y = Math.cos(newHeading);
 			}
 			if(attacking)
 			{
